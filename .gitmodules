@@ -1,0 +1,6 @@
+[submodule "MonoGameContentBuilder/Assets/SuperPowersAssetPacks"]
+	path = MonoGameContentBuilder/Assets/SuperPowersAssetPacks
+	url = git@github.com:sparklinlabs/superpowers-asset-packs.git
+[submodule "MonoGameContentBuilder/SuperpowersAssetPacks"]
+	path = MonoGameContentBuilder/SuperpowersAssetPacks
+	url = git@github.com:sparklinlabs/superpowers-asset-packs.git
