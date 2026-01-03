@@ -25,45 +25,47 @@ if (args is not null && args.Length > 0)
 
   ContentBuilderParams parameters = ContentBuilderParams.Parse(args);
 
-  PostBuild(parameters);
+  Builder.PostBuild(parameters);
 }
 else
 {
-    builder.Run(contentCollectionArgs);
+  builder.Run(contentCollectionArgs);
 
-    PostBuild(contentCollectionArgs);
+  Builder.PostBuild(contentCollectionArgs);
 }
 
 return builder.FailedToBuild > 0 ? -1 : 0;
 
-static void PostBuild(ContentBuilderParams parameters)
-{
-  string inputPath = Path.Combine(parameters.WorkingDirectory, "Assets", "Fonts", "font-16x16.fnt");
-  string outputPath = Path.Combine(parameters.RootedOutputDirectory, "Content", "font-16x16.fnt");
 
-  if (File.Exists(outputPath))
-  {
-    File.Delete(outputPath);
-  }
-  File.Copy(inputPath, outputPath);
-}
 
 public class Builder : ContentBuilder
 {
-    public override IContentCollection GetContentCollection()
+  public static void PostBuild(ContentBuilderParams parameters)
+  {
+    string inputPath = Path.Combine(parameters.WorkingDirectory, "MonoGameContentBuilder", "Assets", "Fonts", "font-16x16.fnt");
+    string outputPath = Path.Combine(parameters.RootedOutputDirectory, "Content", "font-16x16.fnt");
+
+    if (File.Exists(outputPath))
     {
-        var contentCollection = new ContentCollection();
-
-        contentCollection.Include<WildcardRule>("*");
-
-        contentCollection.IncludeCopy<WildcardRule>("font-*");
-        contentCollection.IncludeCopy<WildcardRule>("*.fnt");
-
-        contentCollection.Exclude<WildcardRule>("mockup*");
-        contentCollection.Exclude<WildcardRule>("preview*");
-        contentCollection.Exclude<WildcardRule>("*.md");
-        contentCollection.Exclude<WildcardRule>("*.txt");
-
-        return contentCollection;
+      File.Delete(outputPath);
     }
+    File.Copy(inputPath, outputPath);
+}
+
+  public override IContentCollection GetContentCollection()
+  {
+      var contentCollection = new ContentCollection();
+
+      contentCollection.Include<WildcardRule>("*");
+
+      contentCollection.IncludeCopy<WildcardRule>("font-*");
+      contentCollection.IncludeCopy<WildcardRule>("*.fnt");
+
+      contentCollection.Exclude<WildcardRule>("mockup*");
+      contentCollection.Exclude<WildcardRule>("preview*");
+      contentCollection.Exclude<WildcardRule>("*.md");
+      contentCollection.Exclude<WildcardRule>("*.txt");
+
+      return contentCollection;
+  }
 }

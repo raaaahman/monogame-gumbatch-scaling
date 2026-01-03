@@ -1,0 +1,13 @@
+<Project>
+  <Target Name="BuildContent" BeforeTargets="BeforeCompile">
+    <PropertyGroup>
+      <ContentOutput>$(ProjectDir)$(OutputPath)</ContentOutput>
+      <ContentTemp>$(ProjectDir)$(IntermediateOutputPath)</ContentTemp>
+      <ContentArgs>build -p $(MonoGamePlatform) -s MonoGameContentBuilder/SuperpowersAssetPacks/rpg-battle-system -o $(ContentOutput) -i $(ContentTemp)</ContentArgs>
+      <ContentCommandExt Condition="'$(OS)' == 'Windows_NT'">.exe</ContentCommandExt>
+      <ContentCommand>$(MSBuildThisFileDirectory)bin\Debug\net9.0\MonoGameContentBuilder$(ContentCommandExt)</ContentCommand>
+    </PropertyGroup>
+    <MSBuild Projects="$(MSBuildThisFileDirectory)MonoGameContentBuilder.csproj" Targets="Build" RemoveProperties="TargetFramework;RuntimeIdentifier;RuntimeIdentifiers" />
+    <Exec Command="$(ContentCommand) $(ContentArgs)" WorkingDirectory="$(MSBuildThisFileDirectory)..\" CustomErrorRegularExpression="\[E\] .+" CustomWarningRegularExpression="\[W\] .+" />
+   </Target>
+</Project>
